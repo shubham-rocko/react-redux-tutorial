@@ -1,28 +1,36 @@
 const initialState = {
-    counter: 0
+    counter: 0,
+    results: []
 };
 
 const reducer = (state = initialState, action) => {
-    if(action.type === "INCREMENT" ) {
-        return {
-            counter: state.counter + 1
-        };
+    switch(action.type){
+       case 'INCREMENT':
+            const newState = Object.assign({}, state);
+            newState.counter = state.counter + 1;
+            return newState;
+        case 'ADDITION':
+            return {
+                ...state,
+                counter: state.counter + action.value
+            }
+        case 'DECREMENT':
+            return {
+                ...state,
+                counter: state.counter - 1
+            }
+        case 'SUBTRACTION':
+            return {
+                ...state,
+                counter: state.counter - action.value
+            };
+        case 'STORE_RESULT': 
+            return {
+                ...state,
+                results: state.results.concat({id: new Date(), value: state.counter})
+            }
     }
-    if(action.type === "ADDITION" ) {
-        return {
-            counter: state.counter + action.value
-        };
-    }
-    if(action.type === "DECREMENT" ) {
-        return {
-            counter: state.counter - 1
-        };
-    }
-    if(action.type === "SUBTRACTION" ) {
-        return {
-            counter: state.counter - action.value
-        };
-    }
+   
     return state;
 };
 
